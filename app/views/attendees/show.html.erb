@@ -11,13 +11,15 @@
 </p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @attendee.title %>
+  <strong>Companies Worked For:</strong>
+  <% @attendee.companies.uniq.each do |company| %>
+    <%= company.name %>
+  <% end %>
 </p>
 
 <p>
-  <strong>Company:</strong>
-  <%= @attendee.company %>
+  <strong>Title:</strong>
+  <%= @attendee.title %>
 </p>
 
 <p>
@@ -63,6 +65,13 @@
 <p>
   <strong>Email:</strong>
   <%= @attendee.email %>
+</p>
+
+<p>
+  <strong>Events Attended:</strong>
+  <% @attendee.events.each do |event| %>
+    <%= event.name + " " + event.year.to_s + " " + event.season %><br>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_attendee_path(@attendee) %> |

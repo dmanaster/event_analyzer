@@ -15,5 +15,14 @@
   <%= @event.season %>
 </p>
 
+<p>
+  <strong>Companies Attended:</strong>
+  <% @event.companies.each do |company| %>
+  <%= company.name %>
+  <br>
+  <% end %>
+</p>
+
+
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
