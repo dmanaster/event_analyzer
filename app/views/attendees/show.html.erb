@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @attendee.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @attendee.last_name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @attendee.title %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @attendee.company %>
+</p>
+
+<p>
+  <strong>Address 1:</strong>
+  <%= @attendee.address_1 %>
+</p>
+
+<p>
+  <strong>Address 2:</strong>
+  <%= @attendee.address_2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @attendee.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @attendee.state %>
+</p>
+
+<p>
+  <strong>Zip code:</strong>
+  <%= @attendee.zip_code %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @attendee.country %>
+</p>
+
+<p>
+  <strong>Direct phone:</strong>
+  <%= @attendee.direct_phone %>
+</p>
+
+<p>
+  <strong>Mobile phone:</strong>
+  <%= @attendee.mobile_phone %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @attendee.email %>
+</p>
+
+<%= link_to 'Edit', edit_attendee_path(@attendee) %> |
+<%= link_to 'Back', attendees_path %>
