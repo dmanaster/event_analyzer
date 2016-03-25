@@ -61,6 +61,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def summary
+    @ere_events = Event.ere
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -71,4 +75,12 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(:year, :season)
     end
+
+    # def get_event_attendees(events)
+    #   events.each do |event|
+    #         event.attendees.each do |attendee|
+    #           attendee.event.count
+    #         @previous_attendees_count = event.attendees.where(attendee.count)
+
+    # end
 end

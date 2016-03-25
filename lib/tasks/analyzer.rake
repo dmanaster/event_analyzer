@@ -45,7 +45,63 @@ def import_event(info)
     event.tr!('FALL', '')
   end
   event_year = event
-  new_event = Event.where(name: event_name, season: event_season, year: event_year).first_or_initialize
+  event_date = set_date(event_name, event_season, event_year)
+  new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date).first_or_initialize
   new_event.save
   return new_event
+end
+
+def set_date(event_name, event_season, event_year)
+  if event_name == "ERE" && event_year == "2010" && event_season == "fall"
+    event_date = Date.new(2010, 10, 27)
+  elsif event_name == "ERE" && event_year == "2010" && event_season == "spring"
+    event_date = Date.new(2010, 3, 16)
+  elsif event_name == "ERE" && event_year == "2011" && event_season == "fall"
+    event_date = Date.new(2011, 9, 7)
+  elsif event_name == "ERE" && event_year == "2011" && event_season == "spring"
+    event_date = Date.new(2011, 3, 24)
+  elsif event_name == "ERE" && event_year == "2012" && event_season == "fall"
+    event_date = Date.new(2012, 9, 6)
+  elsif event_name == "ERE" && event_year == "2012" && event_season == "spring"
+    event_date = Date.new(2012, 3, 28)
+  elsif event_name == "ERE" && event_year == "2013" && event_season == "fall"
+    event_date = Date.new(2013, 9, 16)
+  elsif event_name == "ERE" && event_year == "2013" && event_season == "spring"
+    event_date = Date.new(2013, 4, 15)
+  elsif event_name == "ERE" && event_year == "2014" && event_season == "fall"
+    event_date = Date.new(2014, 9, 16)
+  elsif event_name == "ERE" && event_year == "2014" && event_season == "spring"
+    event_date = Date.new(2014, 4, 22)
+  elsif event_name == "ERE" && event_year == "2015" && event_season == "fall"
+    event_date = Date.new(2010, 10, 26)
+  elsif event_name == "ERE" && event_year == "2015" && event_season == "spring"
+    event_date = Date.new(2015, 4, 27)
+  elsif event_name == "Sourcecon" && event_year == "2010" && event_season == "spring"
+    event_date = Date.new(2010, 3, 14)
+  elsif event_name == "Sourcecon" && event_year == "2010" && event_season == "fall"
+    event_date = Date.new(2010, 9, 28)
+  elsif event_name == "Sourcecon" && event_year == "2011" && event_season == "spring"
+    event_date = Date.new(2011, 2, 8)
+  elsif event_name == "Sourcecon" && event_year == "2011" && event_season == "fall"
+    event_date = Date.new(2011, 10, 13)
+  elsif event_name == "Sourcecon" && event_year == "2012" && event_season == "spring"
+    event_date = Date.new(2012, 2, 8)
+  elsif event_name == "Sourcecon" && event_year == "2012" && event_season == "fall"
+    event_date = Date.new(2012, 9, 20)
+  elsif event_name == "Sourcecon" && event_year == "2013" && event_season == "spring"
+    event_date = Date.new(2013, 2, 7)
+  elsif event_name == "Sourcecon" && event_year == "2013" && event_season == "fall"
+    event_date = Date.new(2013, 10, 2)
+  elsif event_name == "Sourcecon" && event_year == "2014" && event_season == "spring"
+    event_date = Date.new(2014, 2, 24)
+  elsif event_name == "Sourcecon" && event_year == "2014" && event_season == "fall"
+    event_date = Date.new(2014, 10, 1)
+  elsif event_name == "Sourcecon" && event_year == "2015" && event_season == "spring"
+    event_date = Date.new(2015, 3, 24)
+  elsif event_name == "Sourcecon" && event_year == "2015" && event_season == "fall"
+    event_date = Date.new(2015, 10, 26)
+  elsif event_name == "Sourcecon" && event_year == "2016" && event_season == "spring"
+    event_date = Date.new(2016, 3, 1)
+  end
+  return event_date
 end
