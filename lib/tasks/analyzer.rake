@@ -1,7 +1,7 @@
 namespace :analyzer do
   desc "TODO"
   task import: :environment do
-    require 'csv'    
+    require 'csv'
     file_name = Rails.root.join("db", "source", "combined_attendee_list.csv").to_s
     CSV.foreach(file_name, :encoding => 'windows-1251:utf-8', :headers => true) do |row|
       event = import_event(row[0])
@@ -30,19 +30,38 @@ def create_associations(event, company, attendee)
     previous_year_event = Event.find(event.previous_year_event)
     if attended?(previous_year_event, attendee)
       attended_previous_year = true
+    else
+      attended_previous_year = false
     end
   end
   Attending.create!(:event_id => event.id, :company_id => company.id, :attendee_id => attendee.id, :first_time => first_time, :attended_previous_season => attended_previous_season, :attended_previous_year => attended_previous_year)
 end
 
 def import_attendee(attendee_first_name, attendee_last_name, attendee_title, attendee_address_1, attendee_address_2, attendee_city, attendee_state, attendee_zip_code, attendee_country, attendee_direct_phone, attendee_mobile_phone, attendee_email)
-  new_attendee = Attendee.where(:first_name => attendee_first_name, :last_name =>attendee_last_name, :title => attendee_title, :address_1 => attendee_address_1, :address_2 => attendee_address_2, :city => attendee_city, :state => attendee_state, :zip_code => attendee_zip_code, :country => attendee_country, :direct_phone => attendee_direct_phone, :mobile_phone => attendee_mobile_phone, :email => attendee_email).first_or_initialize
+  if attendee_first_name
+    titleized_first_name = attendee_first_name.titleize
+  else
+    titleized_first_name = attendee_first_name
+  end
+  if attendee_last_name
+    titleized_last_name = attendee_last_name.titleize
+  else
+    titleized_last_name = attendee_last_name
+  end
+
+  new_attendee = Attendee.where(:first_name => titleized_first_name, :last_name =>titleized_last_name).first_or_initialize
   new_attendee.save
   return new_attendee
 end
 
 def import_company(company_name)
-  new_company = Company.where(name: company_name).first_or_initialize
+  if company_name
+    titleized_company_name = company_name.titleize
+  else
+    titleized_company_name = company_name
+  end
+
+  new_company = Company.where(name: titleized_company_name).first_or_initialize
   new_company.save
   return new_company
 end
@@ -66,17 +85,22 @@ def import_event(info)
   event_year = event
   event_date = set_date(event_name, event_season, event_year)
   event_count = Event.where('date < ?', event_date).where(:name => event_name).size
-  if event_count > 1
-    previous_year_event = Event.where('date < ?', event_date).where(:name => event_name).where(:season => event_season).order(date: :asc).last.id
-    previous_season_event = Event.where('date < ?', event_date).where(:name => event_name).order(date: :asc).last.id
-    new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date, previous_year_event: previous_year_event, previous_season_event: previous_season_event).first_or_initialize
-  elsif event_count == 1
-    previous_season_event = Event.where('date < ?', event_date).where(:name => event_name).order(date: :asc).last.id
-    new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date, previous_year_event: previous_year_event, previous_season_event: previous_season_event).first_or_initialize
+
+  unless Event.exists?(name: event_name, season: event_season, year: event_year)
+    if event_count == 0
+      new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date).first_or_initialize    
+    elsif event_count == 1
+      previous_season_event = Event.where('date < ?', event_date).where(:name => event_name).order(date: :asc).last.id
+      new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date, previous_season_event: previous_season_event).first_or_initialize
+    else
+      previous_year_event = Event.where('date < ?', event_date).where(:name => event_name, :season => event_season).order(date: :asc).last.id
+      previous_season_event = Event.where('date < ?', event_date).where(:name => event_name).order(date: :asc).last.id
+      new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date, previous_year_event: previous_year_event, previous_season_event: previous_season_event).first_or_initialize
+    end
+    new_event.save
   else
-    new_event = Event.where(name: event_name, season: event_season, year: event_year, date: event_date, previous_year_event: previous_year_event, previous_season_event: previous_season_event).first_or_initialize    
+    new_event = Event.where(name: event_name, season: event_season, year: event_year).first
   end
-  new_event.save
   return new_event
 end
 
