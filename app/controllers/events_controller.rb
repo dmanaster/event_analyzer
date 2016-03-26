@@ -63,6 +63,7 @@ class EventsController < ApplicationController
 
   def summary
     @ere_events = Event.ere
+    @sourcecon_events = Event.sourcecon
   end
 
   private
