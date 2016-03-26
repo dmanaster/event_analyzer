@@ -3,22 +3,14 @@
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>
-          <th>Event
-          </th>
-          <th>Year
-          </th>
-          <th>Season
-          </th>
-          <th>Total Paid Registrations
-          </th>
-          <th>% first time at any ERE
-          </th>
-          <th>% attended immediately preceding ERE
-          </th>
-          <th>% attended any previous ERE
-          </th>
-          <th># attended any previous ERE
-          </th>
+          <th>Event</th>
+          <th>Year</th>
+          <th>Season</th>
+          <th>Total Paid Registrations</th>
+          <th>% First time at an ERE Conference</th>
+          <th>Attended ERE Conference 6 months earlier</th>
+          <th>Attended ERE Conference 12 months earlier</th>
+          <th># attended any previous ERE</th>
         </tr>
         <% @ere_events.each do |event| %>
         <tr>
@@ -26,6 +18,10 @@
           <td><%= event.year %></td>
           <td><%= event.season %></td>
           <td><%= event.attendees.count %></td>
+          <td><%= count_first_timers(event) %> (<%= percentage_first_timers(event) %>)</td>
+          <td><%= event.attendings.attended_previous_season.count %> (<%= percentage_previous_season(event) %>)</td>
+          <td><%= event.attendings.attended_previous_year.count %> (<%= percentage_previous_year(event) %>)</td>
+          <td></td>
         </tr>
         <% end %>
       </table>

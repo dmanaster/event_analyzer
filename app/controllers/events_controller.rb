@@ -76,11 +76,4 @@ class EventsController < ApplicationController
       params.require(:event).permit(:year, :season)
     end
 
-    # def get_event_attendees(events)
-    #   events.each do |event|
-    #         event.attendees.each do |attendee|
-    #           attendee.event.count
-    #         @previous_attendees_count = event.attendees.where(attendee.count)
-
-    # end
 end
