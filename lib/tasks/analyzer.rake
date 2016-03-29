@@ -13,11 +13,8 @@ namespace :analyzer do
 end
 
 def create_associations(event, company, attendee)
-  if (attendee.events.count > 0) && (attendee.events.first.date < event.date)
-    first_time = false
-  else
-    first_time = true
-  end
+  newbie = is_newbie?(attendee, event)
+  company_newbie = is_newbie?(company, event)
   if event.previous_season_event
     previous_season_event = Event.find(event.previous_season_event)
     if attended?(previous_season_event, attendee)
@@ -34,7 +31,7 @@ def create_associations(event, company, attendee)
       attended_previous_year = false
     end
   end
-  Attending.create!(:event_id => event.id, :company_id => company.id, :attendee_id => attendee.id, :first_time => first_time, :attended_previous_season => attended_previous_season, :attended_previous_year => attended_previous_year)
+  Attending.create!(:event_id => event.id, :company_id => company.id, :attendee_id => attendee.id, :newbie => newbie, :company_newbie => company_newbie, :attended_previous_season => attended_previous_season, :attended_previous_year => attended_previous_year)
 end
 
 def import_attendee(attendee_first_name, attendee_last_name, attendee_title, attendee_address_1, attendee_address_2, attendee_city, attendee_state, attendee_zip_code, attendee_country, attendee_direct_phone, attendee_mobile_phone, attendee_email)
@@ -161,4 +158,13 @@ end
 
 def attended?(event, attendee)
   event.attendees.include?(attendee)
+end
+
+def is_newbie?(attendee, event)
+  if (attendee.events.count > 0) && (attendee.events.first.date < event.date)
+    newbie = false
+  else
+    newbie = true
+  end
+  return newbie
 end

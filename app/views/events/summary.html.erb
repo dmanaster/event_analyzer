@@ -9,7 +9,7 @@
           <th>Event</th>
           <th>Year</th>
           <th>Season</th>
-          <th>Total Paid Registrations</th>
+          <th>Total Attendees</th>
           <th>Alumni</th>
           <th>Newbies</th>
           <th>Attended 6 months earlier</th>
@@ -21,10 +21,43 @@
           <td><%= event.year %></td>
           <td><%= event.season %></td>
           <td><%= event.attendees.count %></td>
-          <td><%= event.attendings.alumni.count %> (<%= percentage_alumni(event) %>)</td>
-          <td><%= event.attendings.newbies.count %> (<%= percentage_newbies(event) %>)</td>
+          <td><%= alumni_count(event) %> (<%= percentage_alumni(event) %>)</td>
+          <td><%= newbies_count(event) %> (<%= percentage_newbies(event) %>)</td>
           <td><%= event.attendings.attended_previous_season.count %> (<%= percentage_previous_season(event) %>)</td>
           <td><%= event.attendings.attended_previous_year.count %> (<%= percentage_previous_year(event) %>)</td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th colspan="7" class="text-center">ERE Conference - Company Analysis</th>
+        </tr>
+        <tr>
+          <th>Event</th>
+          <th>Year</th>
+          <th>Season</th>
+          <th>Total Attendees</th>
+          <th>Alumni</th>
+          <th>Newbies</th>
+          <th>Attended 6 months earlier</th>
+          <th>Attended 12 months earlier</th>
+        </tr>
+        <% @ere_events.each do |event| %>
+        <tr>
+          <td><%= event.name %></td>
+          <td><%= event.year %></td>
+          <td><%= event.season %></td>
+          <td><%= event.companies.distinct.count %></td>
+          <td><%= company_alumni_count(event) %> (<%= percentage_company_alumni(event) %>)</td>
+          <td><%= company_newbies_count(event) %> (<%= percentage_company_newbies(event) %>)</td>
+          <td></td>
+          <td></td>
         </tr>
         <% end %>
       </table>
@@ -42,7 +75,7 @@
           <th>Event</th>
           <th>Year</th>
           <th>Season</th>
-          <th>Total Paid Registrations</th>
+          <th>Total Attendees</th>
           <th>Alumni</th>
           <th>Newbies</th>
           <th>Attended 6 months earlier</th>
@@ -54,8 +87,8 @@
           <td><%= event.year %></td>
           <td><%= event.season %></td>
           <td><%= event.attendees.count %></td>
-          <td><%= event.attendings.alumni.count %> (<%= percentage_alumni(event) %>)</td>
-          <td><%= event.attendings.newbies.count %> (<%= percentage_newbies(event) %>)</td>
+          <td><%= alumni_count(event) %> (<%= percentage_alumni(event) %>)</td>
+          <td><%= newbies_count(event) %> (<%= percentage_newbies(event) %>)</td>
           <td><%= event.attendings.attended_previous_season.count %> (<%= percentage_previous_season(event) %>)</td>
           <td><%= event.attendings.attended_previous_year.count %> (<%= percentage_previous_year(event) %>)</td>
         </tr>
