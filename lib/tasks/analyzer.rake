@@ -13,8 +13,14 @@ namespace :analyzer do
 end
 
 def create_associations(event, company, attendee)
-  newbie = is_newbie?(attendee, event)
-  company_newbie = is_newbie?(company, event)
+  puts event.inspect
+  if event.name == "ERE"
+   newbie = is_ere_newbie?(attendee, event)
+    company_newbie = is_ere_newbie?(company, event)
+  elsif event.name == "Sourcecon"
+    newbie = is_sourcecon_newbie?(attendee, event)
+    company_newbie = is_sourcecon_newbie?(company, event)
+  end    
   if event.previous_season_event
     previous_season_event = Event.find(event.previous_season_event)
     if attended?(previous_season_event, attendee)
@@ -160,8 +166,17 @@ def attended?(event, attendee)
   event.attendees.include?(attendee)
 end
 
-def is_newbie?(attendee, event)
-  if (attendee.events.count > 0) && (attendee.events.first.date < event.date)
+def is_sourcecon_newbie?(attendee, event)
+  if (attendee.events.sourcecon.count > 0) && (attendee.events.sourcecon.first.date < event.date)
+    newbie = false
+  else
+    newbie = true
+  end
+  return newbie
+end
+
+def is_ere_newbie?(attendee, event)
+  if (attendee.events.ere.count > 0) && (attendee.events.ere.first.date < event.date)
     newbie = false
   else
     newbie = true

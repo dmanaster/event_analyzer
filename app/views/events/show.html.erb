@@ -15,14 +15,31 @@
   <%= @event.season %>
 </p>
 
-<p>
-  <strong>Companies Attended:</strong>
-  <% @event.companies.each do |company| %>
-  <%= company.name %>
-  <br>
+<table class="table table-striped">
+  <tr>
+    <th colspan="7" class="text-center">Attendee info</th>
+  </tr>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Company</th>
+    <th>Alumni?</th>
+    <th>Attended 12 months ago?</th>
+    <th>Attended 6 months ago?</th>
+  </tr>
+  <% @event.attendings.attended_previous_season.each do |attending| %>
+  <tr>
+    <td><%= attending.attendee.id %></td>
+    <td><%= attending.attendee.first_name %></td>
+    <td><%= attending.attendee.last_name %></td>
+    <td><%= attending.company.name %></td>
+    <td><%= !attending.newbie %></td>
+    <td><%= attending.attended_previous_year %></td>
+    <td><%= attending.attended_previous_season %></td>
+  </tr>
   <% end %>
-</p>
-
+</table>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

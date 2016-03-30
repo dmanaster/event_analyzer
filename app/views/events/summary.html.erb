@@ -14,6 +14,7 @@
           <th>Newbies</th>
           <th>Attended 6 months earlier</th>
           <th>Attended 12 months earlier</th>
+          <th>Attended both</th>
         </tr>
         <% @ere_events.each do |event| %>
         <tr>
@@ -23,8 +24,9 @@
           <td><%= event.attendees.count %></td>
           <td><%= alumni_count(event) %> (<%= percentage_alumni(event) %>)</td>
           <td><%= newbies_count(event) %> (<%= percentage_newbies(event) %>)</td>
-          <td><%= event.attendings.attended_previous_season.count %> (<%= percentage_previous_season(event) %>)</td>
-          <td><%= event.attendings.attended_previous_year.count %> (<%= percentage_previous_year(event) %>)</td>
+          <td><%= previous_season_count(event) %> (<%= percentage_previous_season(event) %>)</td>
+          <td><%= previous_year_count(event) %> (<%= percentage_previous_year(event) %>)</td>
+          <td><%= both_count(event) %> (<%= percentage_both(event) %>)</td>
         </tr>
         <% end %>
       </table>
@@ -80,17 +82,19 @@
           <th>Newbies</th>
           <th>Attended 6 months earlier</th>
           <th>Attended 12 months earlier</th>
+          <th>Attended both</th>
         </tr>
         <% @sourcecon_events.each do |event| %>
         <tr>
-          <td><%= event.name %></td>
+          <td><%= link_to(event.name, event) %></td>
           <td><%= event.year %></td>
           <td><%= event.season %></td>
           <td><%= event.attendees.count %></td>
           <td><%= alumni_count(event) %> (<%= percentage_alumni(event) %>)</td>
           <td><%= newbies_count(event) %> (<%= percentage_newbies(event) %>)</td>
-          <td><%= event.attendings.attended_previous_season.count %> (<%= percentage_previous_season(event) %>)</td>
-          <td><%= event.attendings.attended_previous_year.count %> (<%= percentage_previous_year(event) %>)</td>
+          <td><%= previous_season_count(event) %> (<%= percentage_previous_season(event) %>)</td>
+          <td><%= previous_year_count(event) %> (<%= percentage_previous_year(event) %>)</td>
+          <td><%= both_count(event) %> (<%= percentage_both(event) %>)</td>
         </tr>
         <% end %>
       </table>
