@@ -13,7 +13,6 @@ namespace :analyzer do
 end
 
 def create_associations(event, company, attendee)
-  puts event.inspect
   if event.name == "ERE"
    newbie = is_ere_newbie?(attendee, event)
     company_newbie = is_ere_newbie?(company, event)
@@ -28,6 +27,11 @@ def create_associations(event, company, attendee)
     else
       attended_previous_season = false
     end
+    if company_attended?(previous_season_event, company)
+      company_attended_previous_season = true
+    else
+      company_attended_previous_season = false
+    end
   end
   if event.previous_year_event
     previous_year_event = Event.find(event.previous_year_event)
@@ -36,8 +40,13 @@ def create_associations(event, company, attendee)
     else
       attended_previous_year = false
     end
+    if company_attended?(previous_year_event, company)
+      company_attended_previous_year = true
+    else
+      company_attended_previous_year = false
+    end
   end
-  Attending.create!(:event_id => event.id, :company_id => company.id, :attendee_id => attendee.id, :newbie => newbie, :company_newbie => company_newbie, :attended_previous_season => attended_previous_season, :attended_previous_year => attended_previous_year)
+  Attending.create!(:event_id => event.id, :company_id => company.id, :attendee_id => attendee.id, :newbie => newbie, :company_newbie => company_newbie, :attended_previous_season => attended_previous_season, :attended_previous_year => attended_previous_year, :company_attended_previous_season => company_attended_previous_season, :company_attended_previous_year => company_attended_previous_year)
 end
 
 def import_attendee(attendee_first_name, attendee_last_name, attendee_title, attendee_address_1, attendee_address_2, attendee_city, attendee_state, attendee_zip_code, attendee_country, attendee_direct_phone, attendee_mobile_phone, attendee_email)
@@ -164,6 +173,10 @@ end
 
 def attended?(event, attendee)
   event.attendees.include?(attendee)
+end
+
+def company_attended?(event, company)
+  event.companies.include?(company)
 end
 
 def is_sourcecon_newbie?(attendee, event)

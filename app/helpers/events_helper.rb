@@ -60,6 +60,14 @@ module EventsHelper
     return event.attendings.company_alumni.group(:company_id).count.keys.count
   end
 
+  def company_previous_year_count(event)
+    return event.attendings.company_attended_previous_year.group(:company_id).count.keys.count
+  end
+
+  def company_previous_season_count(event)
+    return event.attendings.company_attended_previous_season.group(:company_id).count.keys.count
+  end
+
   def percentage_company_newbies(event)
     first_time_companies = company_newbies_count(event).to_f
     all_companies = all_companies_count(event).to_f
@@ -74,6 +82,20 @@ module EventsHelper
     return percentage
   end
 
+  def company_percentage_previous_year(event)
+    prior_attendees = company_previous_year_count(event).to_f
+    all_attendees = all_companies_count(event).to_f
+    percentage = number_to_percentage(prior_attendees/all_attendees*100, precision: 0)
+    return percentage
+  end
+
+  def company_percentage_previous_season(event)
+    prior_attendees = company_previous_season_count(event).to_f
+    all_attendees = all_companies_count(event).to_f
+    percentage = number_to_percentage(prior_attendees/all_attendees*100, precision: 0)
+    return percentage
+  end
+
 # To be removed once numbers are checked
 
   def both_count(event)
@@ -82,6 +104,17 @@ module EventsHelper
 
   def percentage_both(event)
     prior_attendees = both_count(event).to_f
+    all_attendees = all_attendees_count(event).to_f
+    percentage = number_to_percentage(prior_attendees/all_attendees*100, precision: 0)
+    return percentage
+  end
+
+  def company_both_count(event)
+    return event.attendings.company_attended_both.group(:company_id).count.keys.count
+  end
+
+  def company_percentage_both(event)
+    prior_attendees = company_both_count(event).to_f
     all_attendees = all_attendees_count(event).to_f
     percentage = number_to_percentage(prior_attendees/all_attendees*100, precision: 0)
     return percentage

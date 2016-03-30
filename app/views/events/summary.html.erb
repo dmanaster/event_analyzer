@@ -3,7 +3,7 @@
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>
-          <th colspan="7" class="text-center">ERE Conference - Attendee Analysis</th>
+          <th colspan="9" class="text-center">ERE Conference - Attendee Analysis</th>
         </tr>
         <tr>
           <th>Event</th>
@@ -38,7 +38,7 @@
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>
-          <th colspan="7" class="text-center">ERE Conference - Company Analysis</th>
+          <th colspan="9" class="text-center">ERE Conference - Company Analysis</th>
         </tr>
         <tr>
           <th>Event</th>
@@ -49,6 +49,7 @@
           <th>Newbies</th>
           <th>Attended 6 months earlier</th>
           <th>Attended 12 months earlier</th>
+          <th>Attended both</th>
         </tr>
         <% @ere_events.each do |event| %>
         <tr>
@@ -58,8 +59,9 @@
           <td><%= event.companies.distinct.count %></td>
           <td><%= company_alumni_count(event) %> (<%= percentage_company_alumni(event) %>)</td>
           <td><%= company_newbies_count(event) %> (<%= percentage_company_newbies(event) %>)</td>
-          <td></td>
-          <td></td>
+          <td><%= company_previous_season_count(event) %> (<%= company_percentage_previous_season(event) %>)</td>
+          <td><%= company_previous_year_count(event) %> (<%= company_percentage_previous_year(event) %>)</td>
+          <td><%= company_both_count(event) %> (<%= company_percentage_both(event) %>)</td>
         </tr>
         <% end %>
       </table>
@@ -71,7 +73,7 @@
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>
-          <th colspan="7" class="text-center">Sourcecon - Attendee Analysis</th>
+          <th colspan="9" class="text-center">Sourcecon - Attendee Analysis</th>
         </tr>
         <tr>
           <th>Event</th>
@@ -95,6 +97,41 @@
           <td><%= previous_season_count(event) %> (<%= percentage_previous_season(event) %>)</td>
           <td><%= previous_year_count(event) %> (<%= percentage_previous_year(event) %>)</td>
           <td><%= both_count(event) %> (<%= percentage_both(event) %>)</td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th colspan="9" class="text-center">Sourcecon - Company Analysis</th>
+        </tr>
+        <tr>
+          <th>Event</th>
+          <th>Year</th>
+          <th>Season</th>
+          <th>Total Attendees</th>
+          <th>Alumni</th>
+          <th>Newbies</th>
+          <th>Attended 6 months earlier</th>
+          <th>Attended 12 months earlier</th>
+          <th>Attended both</th>
+        </tr>
+        <% @sourcecon_events.each do |event| %>
+        <tr>
+          <td><%= event.name %></td>
+          <td><%= event.year %></td>
+          <td><%= event.season %></td>
+          <td><%= event.companies.distinct.count %></td>
+          <td><%= company_alumni_count(event) %> (<%= percentage_company_alumni(event) %>)</td>
+          <td><%= company_newbies_count(event) %> (<%= percentage_company_newbies(event) %>)</td>
+          <td><%= company_previous_season_count(event) %> (<%= company_percentage_previous_season(event) %>)</td>
+          <td><%= company_previous_year_count(event) %> (<%= company_percentage_previous_year(event) %>)</td>
+          <td><%= company_both_count(event) %> (<%= company_percentage_both(event) %>)</td>
         </tr>
         <% end %>
       </table>
